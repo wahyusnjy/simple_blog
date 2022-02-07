@@ -1,3 +1,26 @@
+@php
+	$inputReply = [
+		[
+			'id'    => 'game-name',
+			'label' => 'Game Name:',
+			'name'	=> 'name'
+		],
+		[
+			'id' 		=> 'game-icon',
+			'label' => 'Game Icon:',
+			'name'	=> 'icon',
+			'type' 	=> 'file'
+		],
+		[
+			'id' 		=> 'game-base-price',
+			'label' => 'Base Price:',
+			'name'	=> 'base_price',
+			'type' 	=> 'number'
+		],
+	];
+@endphp
+
+
 <!doctype html>
 <html lang="en">
 
@@ -30,6 +53,71 @@
              </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
+
+          @foreach ($article->comments as $comment )
+          @if (!$comment ->comment_id)
+          <div class="modal fade" id="addReply" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title">Reply {{ $comment->user->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="">
+                <div class="modal-body">
+                    <div>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Kirim</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+              <div class="card mt-4">
+                  <div class="card-body">
+                      <h5>{{ $comment->user->name }}</h5>
+                      <p>{{ $comment ->comment }}</p>
+                      <button type="submit" class="btn btn-primary">Balas</button>
+                  </div>
+              </div>
+            <div class="ms-4">
+              @foreach ($comment->comments as $reply )
+              <div class="modal fade" id="addReply2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title">Reply {{ $reply->user->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="">
+                    <div class="modal-body">
+                        <div>
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                    </div>
+                    </form>
+                </div>
+                </div>
+            </div>  
+                  <div class="card mt-2">
+                      <div class="card-body">
+                        <h5>{{ $reply->user->name }}</h5>
+                          {{ $reply ->comment }}
+                          <button type="button" class="btn btn-primary ml-4" data-bs-toggle="modal" data-bs-target="#addReply2">Reply</button>
+                      </div>
+                  </div>
+              @endforeach
+            </div>
+              @endif
+          @endforeach
     </div>
     
     <footer class="bg-dark p-2 fixed-bottom">
